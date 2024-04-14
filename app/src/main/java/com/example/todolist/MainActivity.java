@@ -1,5 +1,7 @@
 package com.example.todolist;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,12 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.todolist.ToDoAdapter;
+import com.example.todolist.ToDoItem;
+import com.example.todolist.LoginActivity;
+import com.example.todolist.R;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private ToDoAdapter completedAdapter;
     private List<ToDoItem> ongoingList;
     private List<ToDoItem> completedList;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         // Find views
         editTextAssignment = findViewById(R.id.editText_assignment);
@@ -63,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
                 logout();
             }
         });
+
+        // Retrieve and display saved lists
+        retrieveListsFromSharedPreferences();
     }
 
     private void logout() {
@@ -71,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 
     private void addAssignment() {
         String assignmentName = editTextAssignment.getText().toString().trim();
@@ -87,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Clear the EditText
             editTextAssignment.setText("");
+
+            // Save lists to SharedPreferences
+            saveListsToSharedPreferences();
         } else {
             Toast.makeText(this, "Please enter an assignment name", Toast.LENGTH_SHORT).show();
         }
@@ -105,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
             ongoingList.add(item);
             ongoingAdapter.notifyDataSetChanged(); // Update UI for ongoing tasks
         }
+
+        // Save lists to SharedPreferences
+        saveListsToSharedPreferences();
     }
 
     // Remove completed item when long-clicked
@@ -112,6 +132,44 @@ public class MainActivity extends AppCompatActivity {
         if (position != RecyclerView.NO_POSITION) {
             completedList.remove(position); // Remove item from the completed list
             completedAdapter.notifyDataSetChanged(); // Update UI
+
+            // Save lists to SharedPreferences
+            saveListsToSharedPreferences();
         }
+    }
+
+    // Save ongoing and completed lists to SharedPreferences
+    private void saveListsToSharedPreferences() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("ongoingSize", ongoingList.size());
+        for (int i = 0; i < ongoingList.size(); i++) {
+            editor.putString("ongoingItemName_" + i, ongoingList.get(i).getName());
+            editor.putBoolean("ongoingItemStatus_" + i, ongoingList.get(i).isCompleted());
+        }
+        editor.putInt("completedSize", completedList.size());
+        for (int i = 0; i < completedList.size(); i++) {
+            editor.putString("completedItemName_" + i, completedList.get(i).getName());
+            editor.putBoolean("completedItemStatus_" + i, completedList.get(i).isCompleted());
+        }
+        editor.apply();
+    }
+
+    // Retrieve ongoing and completed lists from SharedPreferences
+    private void retrieveListsFromSharedPreferences() {
+        int ongoingSize = sharedPreferences.getInt("ongoingSize", 0);
+        for (int i = 0; i < ongoingSize; i++) {
+            String itemName = sharedPreferences.getString("ongoingItemName_" + i, "");
+            boolean itemStatus = sharedPreferences.getBoolean("ongoingItemStatus_" + i, false);
+            ongoingList.add(new ToDoItem(itemName, itemStatus));
+        }
+        ongoingAdapter.notifyDataSetChanged();
+
+        int completedSize = sharedPreferences.getInt("completedSize", 0);
+        for (int i = 0; i < completedSize; i++) {
+            String itemName = sharedPreferences.getString("completedItemName_" + i, "");
+            boolean itemStatus = sharedPreferences.getBoolean("completedItemStatus_" + i, false);
+            completedList.add(new ToDoItem(itemName, itemStatus));
+        }
+        completedAdapter.notifyDataSetChanged();
     }
 }
