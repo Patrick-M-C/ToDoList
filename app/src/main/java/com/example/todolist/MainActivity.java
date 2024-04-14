@@ -159,8 +159,17 @@ public class MainActivity extends AppCompatActivity {
         int ongoingSize = sharedPreferences.getInt("ongoingSize", 0);
         for (int i = 0; i < ongoingSize; i++) {
             String itemName = sharedPreferences.getString("ongoingItemName_" + i, "");
-
-
+            boolean itemStatus = sharedPreferences.getBoolean("ongoingItemStatus_" + i, false);
+            ongoingList.add(new ToDoItem(itemName, itemStatus));
         }
+        ongoingAdapter.notifyDataSetChanged();
+
+        int completedSize = sharedPreferences.getInt("completedSize", 0);
+        for (int i = 0; i < completedSize; i++) {
+            String itemName = sharedPreferences.getString("completedItemName_" + i, "");
+            boolean itemStatus = sharedPreferences.getBoolean("completedItemStatus_" + i, false);
+            completedList.add(new ToDoItem(itemName, itemStatus));
+        }
+        completedAdapter.notifyDataSetChanged();
     }
 }
