@@ -8,6 +8,7 @@
     android:padding="16dp"
     tools:context=".LoginSuccessActivity">
 
+    <!-- Main design og textview fil for login success activity -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

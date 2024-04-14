@@ -7,6 +7,7 @@
     android:padding="16dp"
     tools:context=".LoginActivity">
 
+    <!-- The textview for the login activity -->
     <EditText
         android:id="@+id/editText_username"
         android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         android:hint="Username"
         android:inputType="text"/>
 
+    <!-- The edittext for the login activity -->
     <EditText
         android:id="@+id/editText_password"
         android:layout_width="match_parent"
@@ -23,6 +25,7 @@
         android:hint="Password"
         android:inputType="textPassword"/>
 
+    <!-- The login button for the login activity -->
     <Button
         android:id="@+id/button_login"
         android:layout_width="match_parent"

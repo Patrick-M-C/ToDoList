@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.content.Intent;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.example.todolist.ToDoAdapter;
 import com.example.todolist.ToDoItem;
 import com.example.todolist.LoginActivity;
 import com.example.todolist.R;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         retrieveListsFromSharedPreferences();
     }
 
+    // Method to handle logout
     private void logout() {
         // Start LoginActivity and finish MainActivity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -87,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    // Method to add a new assignment
     private void addAssignment() {
         String assignmentName = editTextAssignment.getText().toString().trim();
         if (!assignmentName.isEmpty()) {
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Toggle completion status of an item when clicked
+    // Method to toggle completion status of an item when clicked
     public void toggleCompletion(int position, boolean isCompleted) {
         if (isCompleted) {
             // Move item from ongoing list to completed list
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         saveListsToSharedPreferences();
     }
 
-    // Remove completed item when long-clicked
+    // Method to remove completed item when long-clicked
     public void removeCompleted(int position) {
         if (position != RecyclerView.NO_POSITION) {
             completedList.remove(position); // Remove item from the completed list
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Save ongoing and completed lists to SharedPreferences
+    // Method to save ongoing and completed lists to SharedPreferences
     private void saveListsToSharedPreferences() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("ongoingSize", ongoingList.size());
@@ -154,22 +154,13 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    // Retrieve ongoing and completed lists from SharedPreferences
+    // Method to retrieve ongoing and completed lists from SharedPreferences
     private void retrieveListsFromSharedPreferences() {
         int ongoingSize = sharedPreferences.getInt("ongoingSize", 0);
         for (int i = 0; i < ongoingSize; i++) {
             String itemName = sharedPreferences.getString("ongoingItemName_" + i, "");
-            boolean itemStatus = sharedPreferences.getBoolean("ongoingItemStatus_" + i, false);
-            ongoingList.add(new ToDoItem(itemName, itemStatus));
-        }
-        ongoingAdapter.notifyDataSetChanged();
 
-        int completedSize = sharedPreferences.getInt("completedSize", 0);
-        for (int i = 0; i < completedSize; i++) {
-            String itemName = sharedPreferences.getString("completedItemName_" + i, "");
-            boolean itemStatus = sharedPreferences.getBoolean("completedItemStatus_" + i, false);
-            completedList.add(new ToDoItem(itemName, itemStatus));
+
         }
-        completedAdapter.notifyDataSetChanged();
     }
 }

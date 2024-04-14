@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Placeholder layout for login failed activity -->
+    <!-- Main design og textview fil for login failed activity -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -18,11 +18,13 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     private Context context;
     private List<ToDoItem> itemList;
 
+    // Constructor to initialize the adapter with context and item list
     public ToDoAdapter(Context context, List<ToDoItem> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
 
+    // Create view holder for each item in the list
     @NonNull
     @Override
     public ToDoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,28 +32,33 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         return new ToDoViewHolder(view);
     }
 
+    // Bind data to the view holder
     @Override
     public void onBindViewHolder(@NonNull ToDoViewHolder holder, int position) {
         ToDoItem item = itemList.get(position);
         holder.bind(item);
     }
 
+    // Return the total number of items in the list
     @Override
     public int getItemCount() {
         return itemList.size();
     }
 
+    // Delete item from the list at the specified position
     public void deleteItem(int position) {
         itemList.remove(position);
         notifyItemRemoved(position);
     }
 
+    // View holder class for each item in the list
     public class ToDoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView itemName;
         private Button buttonDelete;
         private Button buttonComplete; // Add Complete button
 
+        // Constructor to initialize view holder components and listeners
         public ToDoViewHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.text_item_name);
@@ -86,6 +93,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             });
         }
 
+        // Bind data to the view holder components
         public void bind(ToDoItem item) {
             itemName.setText(item.getName());
 
@@ -100,6 +108,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             buttonComplete.setVisibility(item.isCompleted() ? View.GONE : View.VISIBLE);
         }
 
+        // Handle item click event to toggle completion status
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
@@ -110,6 +119,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             }
         }
 
+        // Handle long click event to remove item from the list
         @Override
         public boolean onLongClick(View v) {
             int position = getAdapterPosition();

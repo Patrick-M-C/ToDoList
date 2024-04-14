@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                login(); // Call the login method when the button is clicked
             }
         });
     }
@@ -49,13 +49,11 @@ public class LoginActivity extends AppCompatActivity {
         if (username.equals(VALID_USERNAME) && password.equals(VALID_PASSWORD)) {
             // Login successful, navigate to the LoginSuccessActivity
             Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
-            startActivity(intent);
-            finish(); // Finish the login activity
+            startActivity(intent); // Start the LoginSuccessActivity
+            finish(); // Finish the login activity to prevent going back to it
         } else {
             // Invalid credentials, display a toast message
             Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }

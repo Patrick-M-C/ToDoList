@@ -21,12 +21,13 @@ public class LoginSuccessActivity extends AppCompatActivity {
             public void run() {
                 navigateToMainActivity();
             }
-        }, 1000);
+        }, 1000); // Delay for 1 second (1000 milliseconds)
     }
 
+    // Method to navigate to MainActivity
     private void navigateToMainActivity() {
         Intent intent = new Intent(LoginSuccessActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish(); // Finish this activity to prevent going back to it with back button
+        startActivity(intent); // Start MainActivity
+        finish(); // Finish this activity to prevent going back to it with the back button
     }
 }

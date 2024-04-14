@@ -6,6 +6,7 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
+    <!-- Main design og edittext fil for  main activity -->
     <EditText
         android:id="@+id/editText_assignment"
         android:layout_width="match_parent"
@@ -14,6 +15,7 @@
         android:hint="Enter assignment name"
         android:inputType="text"/>
 
+    <!-- The add button for the main activity page to add tasks -->
     <Button
         android:id="@+id/button_add"
         android:layout_width="wrap_content"
@@ -36,7 +38,7 @@
         android:layout_below="@id/recyclerView_ongoing"
         android:layout_marginTop="16dp"/>
 
-    <!-- Add logout button -->
+    <!-- The logout button for the main activity page to logout -->
     <Button
         android:id="@+id/button_logout"
         android:layout_width="wrap_content"
